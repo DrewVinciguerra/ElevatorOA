@@ -9,6 +9,14 @@ public:
 	~Elevator();
 
 	void StartingFloor(int floor);
-	void AddStops(std::vector<int> stops_vector);
+	void FloorStops(std::vector<int> stops_vector);
+	void FloorsVisited(std::vector<int>& floors);
+	int CalculateTravelTime();
+
+private:
+	const int kSingleFloorTravelTime = 10;
+	int starting_floor;
+	std::vector<int> stops_vector;
+		 
 };
 

@@ -4,6 +4,8 @@
 #include <string>
 #include <algorithm>
 
+#include "Elevator.h"
+
 int main(int argc, char* argv[]) {
 /*
     •       Provide code (in C++) that simulates an elevator.
@@ -15,18 +17,13 @@ int main(int argc, char* argv[]) {
     •       Program Constants: Single floor travel time: 10
 */
 
-    const std::string ARG_START = "start=";
-    const std::string ARG_FLOOR = "floor=";
+    const std::string kArgStart = "start=";
+    const std::string kArgFloor = "floor=";
 
-    int starting_floor = 0;
+    int starting_floor = -1;
     std::vector<int> floors;
-    //std::vector<int> stops_vector;
 
-    std::cout << "Welcome to Elevator Sim\n";
-    std::cout << "argc=" << argc << "\n";
-    for (int i = 0; i < argc; i++) {
-        std::cout << "argv[] = " << argv[i] << "\n";
-    }
+    std::cout << "Welcome to Elevator Sim\n\n";
 
     std::vector<std::string> arguments_vector;
     for (int i = 0; i < argc; i++) {
@@ -40,11 +37,18 @@ int main(int argc, char* argv[]) {
         //Convert param to lower case
         std::transform(current_arg.begin(), current_arg.end(), current_arg.begin(), std::tolower);
 
-        int target_index = current_arg.find(ARG_FLOOR);
-        if (target_index > -1) {
+        size_t target_index = current_arg.find(kArgStart);
+        if (target_index != std::string::npos ) {
+            // Get value after "start="
+            std::string start_value = current_arg.substr(kArgStart.length());
+            starting_floor = std::stoi(start_value);  //Turn into vector
+        }
+
+        target_index = current_arg.find(kArgFloor);
+        if (target_index != std::string::npos) {
 
             // Parse input arguments into floors vector
-            std::string floor_list = current_arg.substr(ARG_FLOOR.length());
+            std::string floor_list = current_arg.substr(kArgFloor.length());
             size_t pos = 0;
             std::string current_value;
 
@@ -63,30 +67,39 @@ int main(int argc, char* argv[]) {
                 floors.push_back(std::stoi(current_value));
                 floor_list.erase(0, pos + 1);
             }
-
         }
+    }
 
-        target_index = current_arg.find(ARG_START);
-        if (target_index > -1) {
-            // Get value after "start="
-            std::string start_value = current_arg.substr(ARG_START.length());
-            starting_floor = std::stoi(start_value);  //Turn into vector
+    // Make sure the needed variables have values
+    if (starting_floor != -1 and floors.size() != 0) {
+
+        Elevator elevator;
+        elevator.StartingFloor(starting_floor);
+        elevator.FloorStops(floors);
+
+        std::vector<int> floors_visited;
+
+        elevator.FloorsVisited(floors_visited);
+        int time = elevator.CalculateTravelTime();
+
+        std::cout << time << " ";
+
+        size_t vector_length = floors_visited.size();
+        for (size_t index = 0; index < vector_length; index++) {
+
+            std::cout << floors_visited[index];
+            if (index < vector_length - 1) {
+                std::cout << ",";
+            }
         }
-
 
 
     }
-
-    std::cout << "Start = " << starting_floor << "\n";
-    std::cout << "Floors = " << floors.size() << "\n";
-
-    //ParseParams(int argc, char* argv[]);
-
-    // argv[] = start=12
-    // argv[] = floor = 2, 9, 1, 32
+    else {
+        std::cout << "Example usage:\nelevator start=12 floor=2,9,1,32 \n";
 
 
-
+    }
 
 
     char x;
