@@ -93,18 +93,10 @@ int main(int argc, char* argv[]) {
             }
         }
 
-
     }
     else {
         std::cout << "Example usage:\nelevator start=12 floor=2,9,1,32 \n";
-
-
     }
-
-
-    char x;
-    std::cin >> x;
-
 
 }
 

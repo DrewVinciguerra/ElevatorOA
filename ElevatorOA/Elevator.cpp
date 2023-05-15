@@ -42,18 +42,10 @@ int Elevator::CalculateTravelTime()
 
 	if (starting_floor != -1 and stops_vector.size() > 0) {
 		for (int current_stop : stops_vector) {
-
-			//std::cout << "Current Floor: " << current_floor << "\n";
-			//std::cout << "Travel to Floor: " << current_stop << "\n";
 			
 			int diff = abs(current_floor - current_stop);
-			
-			//std::cout << "Diff: " << diff << "\n";
-			
 			travel_time += diff * kSingleFloorTravelTime;
-
 			current_floor = current_stop;
-
 		}
 	}
 	else {
