@@ -2,6 +2,7 @@
 
 #include "Elevator.h"
 
+
 Elevator::Elevator()
 {
 	starting_floor = -1;
@@ -35,9 +36,9 @@ void Elevator::FloorsVisited(std::vector<int>& floors) {
 
 // This function calculates the time is takes to travel to all the floors that have been requested.
 // If there is an error, it returns -1;
-int Elevator::CalculateTravelTime()
+Elevator::ErrorCode Elevator::CalculateTravelTime(int& travel_time)
 {
-	int travel_time = 0;
+	Elevator::ErrorCode result = Elevator::ErrorCode::Success;
 	int current_floor = starting_floor;
 
 	if (starting_floor != -1 and stops_vector.size() > 0) {
@@ -49,10 +50,10 @@ int Elevator::CalculateTravelTime()
 		}
 	}
 	else {
-		travel_time = -1;
+		result = Elevator::ErrorCode::MissingArgument;
 	}
 
-	return travel_time;
+	return result;
 
 
 }

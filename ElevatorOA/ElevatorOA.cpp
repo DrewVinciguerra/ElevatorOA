@@ -23,14 +23,16 @@ int main(int argc, char* argv[]) {
     int starting_floor = -1;
     std::vector<int> floors;
 
-    std::cout << "Welcome to Elevator Sim\n\n";
-
     std::vector<std::string> arguments_vector;
     for (int i = 0; i < argc; i++) {
         arguments_vector.push_back(argv[i]);
     }
 
-    //For real production code, I would check the passed in command more and return a friendly message on any errors I would find. 
+
+    // For real production code, I would check the passed in command more and return a friendly message on any errors I find. 
+ 
+    // If this function was going to be added to in the future, I would break up this large main function into smaller ones like:  
+    //   ProcessArguments() and OperateElevator()
 
     for (std::string current_arg : arguments_vector) {
 
@@ -72,7 +74,7 @@ int main(int argc, char* argv[]) {
 
     // Make sure the needed variables have values
     if (starting_floor != -1 and floors.size() != 0) {
-
+        Elevator::ErrorCode result;
         Elevator elevator;
         elevator.StartingFloor(starting_floor);
         elevator.FloorStops(floors);
@@ -80,23 +82,33 @@ int main(int argc, char* argv[]) {
         std::vector<int> floors_visited;
 
         elevator.FloorsVisited(floors_visited);
-        int time = elevator.CalculateTravelTime();
+        int time = 0;
+        result = elevator.CalculateTravelTime(time);
 
-        std::cout << time << " ";
+        if (result == Elevator::ErrorCode::Success) {
 
-        size_t vector_length = floors_visited.size();
-        for (size_t index = 0; index < vector_length; index++) {
+            std::cout << time << " ";
 
-            std::cout << floors_visited[index];
-            if (index < vector_length - 1) {
-                std::cout << ",";
+            size_t vector_length = floors_visited.size();
+            for (size_t index = 0; index < vector_length; index++) {
+
+                std::cout << floors_visited[index];
+                if (index < vector_length - 1) {
+                    std::cout << ",";
+                }
             }
+        }
+        else {
+            std::cout << "ERROR Example usage: elevator start=12 floor=2,9,1,32 \n";
         }
 
     }
     else {
-        std::cout << "Example usage:\nelevator start=12 floor=2,9,1,32 \n";
+        std::cout << "ERROR Example usage: elevator start=12 floor=2,9,1,32 \n";
     }
+
+
+    std::cout << "Exit";
 
 }
 
