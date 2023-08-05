@@ -110,6 +110,7 @@ int main(int argc, char* argv[]) {
     }
 
 
+    std::cout << "\nGoodbye Everyone \n";
     std::cout << "Exit";
 
 }
