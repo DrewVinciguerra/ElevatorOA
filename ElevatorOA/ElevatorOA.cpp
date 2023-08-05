@@ -17,6 +17,8 @@ int main(int argc, char* argv[]) {
     •       Program Constants: Single floor travel time: 10
 */
 
+    std::cout << "Welcome to Elevator Program \n";
+
     const std::string kArgStart = "start=";
     const std::string kArgFloor = "floor=";
 
